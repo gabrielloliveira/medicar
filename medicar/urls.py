@@ -7,4 +7,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/token/', auth_views.obtain_auth_token),
     path('api/especialidades/', include("medicar.specialties.urls", namespace="specialties")),
+    path('api/medicos/', include("medicar.core.urls", namespace="core")),
 ]

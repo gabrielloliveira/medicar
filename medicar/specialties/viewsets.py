@@ -5,7 +5,7 @@ from medicar.specialties.models import Specialty
 from medicar.specialties.serializers import SpecialtySerializer
 
 
-class SpecialtyListCreateView(generics.ListCreateAPIView):
+class SpecialtyListView(generics.ListAPIView):
     serializer_class = SpecialtySerializer
     permission_classes = [IsAuthenticated]
 
@@ -18,7 +18,6 @@ class SpecialtyListCreateView(generics.ListCreateAPIView):
         return qs
 
 
-class SpecialtyRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+class SpecialtyRetrieveView(generics.RetrieveAPIView):
     serializer_class = SpecialtySerializer
     permission_classes = [IsAuthenticated]
-    queryset = Specialty.objects.all()

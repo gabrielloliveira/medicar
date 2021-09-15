@@ -5,6 +5,6 @@ from . import viewsets
 app_name = "specialties"
 
 urlpatterns = [
-    path("", viewsets.SpecialtyListCreateView.as_view(), name="list"),
-    path("<int:pk>/", viewsets.SpecialtyRetrieveUpdateDestroyView.as_view(), name="retrieve"),
+    path("", viewsets.SpecialtyListView.as_view(), name="list"),
+    path("<int:pk>/", viewsets.SpecialtyRetrieveView.as_view(), name="retrieve"),
 ]
