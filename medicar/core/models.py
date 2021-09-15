@@ -2,6 +2,8 @@ import uuid
 
 from django.db import models
 
+from medicar.core.managers import MedicalAppointmentManager
+
 
 class DefaultBaseModel(models.Model):
     created_at = models.DateTimeField('Criado em', auto_now_add=True)
@@ -21,9 +23,28 @@ class Doctor(DefaultBaseModel):
         "specialties.Specialty", verbose_name="especialidade", on_delete=models.SET_NULL, blank=True, null=True
     )
 
+    @property
+    def specialty_name(self):
+        return self.specialty.name if self.specialty else None
+
     def __str__(self):
         return self.name
 
     class Meta:
         verbose_name = "Médico"
         verbose_name_plural = "Médicos"
+
+
+class MedicalAppointment(DefaultBaseModel):
+    doctor = models.ForeignKey("Doctor", verbose_name="médico", on_delete=models.CASCADE)
+    date = models.DateField("data")
+    time = models.TimeField("horário")
+
+    objects = MedicalAppointmentManager()
+
+    def __str__(self):
+        return f"Horário marcado às {self.time} - {self.doctor}"
+
+    class Meta:
+        verbose_name = "Consulta"
+        verbose_name_plural = "Consultas"

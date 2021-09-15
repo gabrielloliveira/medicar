@@ -1,8 +1,8 @@
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 
-from medicar.core.models import Doctor
-from medicar.core.serializers import DoctorSerializer
+from medicar.core.models import Doctor, MedicalAppointment
+from medicar.core.serializers import DoctorSerializer, MedicalAppointmentSerializer
 
 
 class DoctorListView(generics.ListAPIView):
@@ -19,3 +19,9 @@ class DoctorListView(generics.ListAPIView):
             qs = qs.filter(specialty_id=self.request.GET.get("especialidade"))
 
         return qs
+
+
+class MedicalAppointmentListView(generics.ListAPIView):
+    serializer_class = MedicalAppointmentSerializer
+    permission_classes = [IsAuthenticated]
+    queryset = MedicalAppointment.objects.filter_pending_appointments()

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from medicar.core.models import Doctor
+from medicar.core.models import Doctor, MedicalAppointment
 from medicar.specialties.serializers import SpecialtySerializer
 
 
@@ -16,3 +16,11 @@ class DoctorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Doctor
         fields = ("id", "crm", "name", "specialty",)
+
+
+class MedicalAppointmentSerializer(serializers.ModelSerializer):
+    doctor = DoctorSerializer(many=False)
+
+    class Meta:
+        model = MedicalAppointment
+        fields = ("id", "date", "time", "created_at", "doctor",)

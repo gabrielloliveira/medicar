@@ -5,5 +5,6 @@ from medicar.core import viewsets
 app_name = "core"
 
 urlpatterns = [
-    path("", viewsets.DoctorListView.as_view(), name="list"),
+    path("medicos/", viewsets.DoctorListView.as_view(), name="doctors_list"),
+    path("consultas/", viewsets.MedicalAppointmentListView.as_view(), name="medical_appointment_list"),
 ]
