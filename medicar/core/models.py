@@ -1,5 +1,7 @@
+import datetime
 import uuid
 
+from django.conf import settings
 from django.db import models
 
 from medicar.core.managers import MedicalAppointmentManager
@@ -39,8 +41,15 @@ class MedicalAppointment(DefaultBaseModel):
     doctor = models.ForeignKey("Doctor", verbose_name="médico", on_delete=models.CASCADE)
     date = models.DateField("data")
     time = models.TimeField("horário")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="usuário que marcou", on_delete=models.CASCADE)
 
     objects = MedicalAppointmentManager()
+
+    @property
+    def is_active(self):
+        now = datetime.datetime.now()
+        datetime_appointment = datetime.datetime.combine(self.date, self.time)
+        return now <= datetime_appointment
 
     def __str__(self):
         return f"Horário marcado às {self.time} - {self.doctor}"

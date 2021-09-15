@@ -6,7 +6,7 @@ from rest_framework.response import Response
 
 from medicar.core.models import Doctor, MedicalAppointment
 from medicar.core.serializers import DoctorSerializer, MedicalAppointmentSerializer
-from medicar.core.services import can_mark_appointment
+from medicar.core.services import can_mark_appointment, can_delete_appointment
 from medicar.schedule.models import Schedule
 
 
@@ -48,8 +48,25 @@ class MedicalAppointmentListCreateView(generics.ListCreateAPIView):
         appointment = MedicalAppointment.objects.create(
             doctor=schedule.doctor,
             date=schedule.date,
-            time=time
+            time=time,
+            user=request.user
         )
 
         serializer = self.serializer_class(instance=appointment)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class MedicalAppointmentDeleteView(generics.DestroyAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = MedicalAppointmentSerializer
+    queryset = MedicalAppointment.objects.filter_pending_appointments()
+
+    def get_object(self):
+        return get_object_or_404(MedicalAppointment, id=self.kwargs['pk'], user=self.request.user)
+
+    @atomic
+    def delete(self, request, *args, **kwargs):
+        if not can_delete_appointment(self.get_object(), request.user):
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        self.get_object().delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
