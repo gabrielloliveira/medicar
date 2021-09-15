@@ -10,7 +10,7 @@ class MedicalAppointmentQuerySet(models.QuerySet):
         return self.filter(
             Q(Q(date=now.date()) & Q(time__gte=now.time())) |
             Q(date__gt=now.date())
-        )
+        ).order_by("date", "time")
 
 
 class MedicalAppointmentManager(models.Manager):
