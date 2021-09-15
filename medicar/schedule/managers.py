@@ -8,7 +8,7 @@ class ScheduleQuerySet(models.QuerySet):
     def filter_schedule_actives(self):
         today = datetime.today()
         return self.filter(
-            Q(date__gte=today)
+            Q(date__gte=today) & Q(has_available_time=True)
         ).order_by("date")
 
 
