@@ -6,5 +6,5 @@ app_name = "core"
 
 urlpatterns = [
     path("medicos/", viewsets.DoctorListView.as_view(), name="doctors_list"),
-    path("consultas/", viewsets.MedicalAppointmentListView.as_view(), name="medical_appointment_list"),
+    path("consultas/", viewsets.MedicalAppointmentListCreateView.as_view(), name="medical_appointment_list_create"),
 ]

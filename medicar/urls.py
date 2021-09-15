@@ -5,7 +5,8 @@ from rest_framework.authtoken import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/token/', auth_views.obtain_auth_token),
-    path('api/especialidades/', include("medicar.specialties.urls", namespace="specialties")),
-    path('api/', include("medicar.core.urls", namespace="core")),
+    path('token/', auth_views.obtain_auth_token),
+    path('especialidades/', include("medicar.specialties.urls", namespace="specialties")),
+    path('agendas/', include("medicar.schedule.urls", namespace="schedule")),
+    path('', include("medicar.core.urls", namespace="core")),
 ]
