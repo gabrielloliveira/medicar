@@ -10,11 +10,13 @@ class Schedule(DefaultBaseModel):
     doctor = models.ForeignKey("core.Doctor", verbose_name="médico", on_delete=models.CASCADE)
     date = models.DateField("dia da agenda")
     times = models.ManyToManyField("ScheduleTime", verbose_name="horários", blank=True)
-    has_available_time = models.BooleanField("tem horário livre", default=True)
+    has_available_time = models.BooleanField("tem horário livre", default=False)
 
     objects = ScheduleManager()
 
     def get_available_times(self):
+        if not self.id:
+            return ScheduleTime.objects.none()
         now = datetime.datetime.now()
         appointments_hours = self.doctor.medicalappointment_set.filter(date=self.date).values_list("time", flat=True)
         return self.times.filter(time__gte=now.time()).exclude(time__in=appointments_hours)
