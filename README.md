@@ -13,3 +13,4 @@ API feita com intuito de um cumprir este desafio backend 👉🏽 https://github
 - Gere o BD Sqlite de teste ```python manage.py migrate```
 - Crie um superusuario ```python manage.py createsuperuser```
 
+Criei um arquivo do Insomnia de exemplo o botei na raiz do projeto, para caso haja a necesisdade de uso.
